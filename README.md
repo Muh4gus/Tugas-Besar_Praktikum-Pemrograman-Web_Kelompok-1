@@ -1,6 +1,5 @@
 # Sistem Lelang Online (LelangKu)
-Tugas Praktikum Pemrograman Web - Semester 5
-Aplikasi ini adalah sistem lelang sederhana yang dibuat menggunakan framework Laravel 12. Di dalamnya sudah ada fitur untuk admin mengelola barang dan fitur untuk user (member) melakukan penawaran harga (bid).
+Tugas Besar Praktikum Pemrograman Web - Aplikasi ini adalah sistem lelang sederhana yang dibuat menggunakan framework Laravel 12. Di dalamnya sudah ada fitur untuk admin mengelola barang dan fitur untuk user (member) melakukan penawaran harga (bid).
 ## Fitur Lengkap Aplikasi:
 1.  **Sistem Autentikasi**:
     *   Halaman **Login** dan **Registrasi** user baru.
