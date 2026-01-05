@@ -6,7 +6,7 @@ use App\Models\AuctionLog;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-class AuctionItemController extends Controller
+class AuctionController extends Controller
 {
     /**
      * Display listing of auction items.
