@@ -9,6 +9,15 @@
         <div class="card-body">
             <form action="{{ route('admin.items.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @if ($errors->any())
+                    <div class="alert alert-error">
+                        <ul style="margin-left: 1.5rem; margin-bottom: 0;">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="form-group">
                     <label class="form-label">Kategori *</label>
                     <select name="category_id" class="form-control" required>
@@ -46,10 +55,14 @@
                     <div class="form-group">
                         <label class="form-label">Waktu Mulai *</label>
                         <input type="datetime-local" name="start_time" class="form-control" required>
+                        @error('start_time')<span
+                        style="color: var(--danger); font-size: 0.85rem;">{{ $message }}</span>@enderror
                     </div>
                     <div class="form-group">
                         <label class="form-label">Waktu Berakhir *</label>
                         <input type="datetime-local" name="end_time" class="form-control" required>
+                        @error('end_time')<span
+                        style="color: var(--danger); font-size: 0.85rem;">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>

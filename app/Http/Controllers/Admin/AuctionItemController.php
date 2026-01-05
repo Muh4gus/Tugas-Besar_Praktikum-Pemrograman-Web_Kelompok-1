@@ -57,7 +57,7 @@ class AuctionItemController extends Controller
             'image' => ['nullable', 'image', 'max:2048'],
             'starting_price' => ['required', 'numeric', 'min:0'],
             'minimum_bid_increment' => ['required', 'numeric', 'min:1000'],
-            'start_time' => ['required', 'date', 'after_or_equal:now'],
+            'start_time' => ['required', 'date'],
             'end_time' => ['required', 'date', 'after:start_time'],
         ]);
 
