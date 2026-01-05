@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Masuk')
+@section('title', 'Reset Password')
 
 @section('styles')
     <style>
@@ -68,31 +68,6 @@
             padding-left: 2.75rem;
         }
 
-        .form-check {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .form-check input {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-        }
-
-        .auth-footer {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--gray-400);
-        }
-
-        .auth-footer a {
-            color: var(--primary-light);
-            font-weight: 600;
-        }
-
         .error-message {
             color: var(--danger);
             font-size: 0.85rem;
@@ -106,43 +81,39 @@
         <div class="auth-container">
             <div class="auth-card animate-fade-in">
                 <div class="auth-header">
-                    <div class="auth-icon"><i class="fas fa-sign-in-alt"></i></div>
-                    <h1 class="auth-title">Selamat Datang!</h1>
-                    <p class="auth-subtitle">Masuk ke akun LelangKu Anda</p>
+                    <div class="auth-icon"><i class="fas fa-lock-open"></i></div>
+                    <h1 class="auth-title">Password Baru</h1>
+                    <p class="auth-subtitle">Buat password baru untuk akun Anda</p>
                 </div>
-                <form method="POST" action="{{ route('login') }}">
+
+                <form method="POST" action="{{ route('password.update') }}">
                     @csrf
+                    <!-- Hidden email field (simulated token) -->
+                    <input type="hidden" name="email" value="{{ request()->get('email') }}">
+
                     <div class="form-group">
-                        <label class="form-label">Email</label>
+                        <label class="form-label">Password Baru</label>
                         <div class="input-group">
-                            <i class="fas fa-envelope"></i>
-                            <input type="email" name="email" class="form-control" placeholder="email@example.com"
-                                value="{{ old('email') }}" required autofocus>
+                            <i class="fas fa-key"></i>
+                            <input type="password" name="password" class="form-control" placeholder="••••••••" required
+                                autofocus>
                         </div>
-                        @error('email')<div class="error-message">{{ $message }}</div>@enderror
+                        @error('password')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
+
                     <div class="form-group">
-                        <label class="form-label">Password</label>
+                        <label class="form-label">Konfirmasi Password</label>
                         <div class="input-group">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                            <i class="fas fa-check-circle"></i>
+                            <input type="password" name="password_confirmation" class="form-control" placeholder="••••••••"
+                                required>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div class="form-check">
-                                <input type="checkbox" name="remember" id="remember">
-                                <label for="remember">Ingat saya</label>
-                            </div>
-                            <a href="{{ route('password.request') }}"
-                                style="font-size: 0.9rem; color: var(--primary-light);">Lupa Password?</a>
-                        </div>
-                    </div>
+
                     <button type="submit" class="btn btn-primary" style="width:100%;padding:1rem;">
-                        <i class="fas fa-sign-in-alt"></i> Masuk
+                        <i class="fas fa-save"></i> Simpan Password
                     </button>
                 </form>
-                <div class="auth-footer">Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a></div>
             </div>
         </div>
     </div>

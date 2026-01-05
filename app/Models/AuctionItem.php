@@ -36,7 +36,7 @@ class AuctionItem extends Model
     ];
 
     /**
-     * Get the user that owns the auction item.
+     * Relasi: User pemilik barang lelang.
      */
     public function user(): BelongsTo
     {
@@ -44,7 +44,7 @@ class AuctionItem extends Model
     }
 
     /**
-     * Get the category of the auction item.
+     * Relasi: Kategori dari barang lelang.
      */
     public function category(): BelongsTo
     {
@@ -52,7 +52,7 @@ class AuctionItem extends Model
     }
 
     /**
-     * Get the winner of the auction.
+     * Relasi: Pemenang lelang (User).
      */
     public function winner(): BelongsTo
     {
@@ -60,7 +60,7 @@ class AuctionItem extends Model
     }
 
     /**
-     * Get all bids for this auction item.
+     * Relasi: Semua bid (penawaran) untuk barang ini.
      */
     public function bids(): HasMany
     {
@@ -68,7 +68,7 @@ class AuctionItem extends Model
     }
 
     /**
-     * Get logs for this auction item.
+     * Relasi: Log aktivitas barang ini.
      */
     public function logs(): HasMany
     {
@@ -76,7 +76,7 @@ class AuctionItem extends Model
     }
 
     /**
-     * Get the highest bid.
+     * Ambil data bid tertinggi saat ini.
      */
     public function highestBid()
     {
@@ -84,7 +84,7 @@ class AuctionItem extends Model
     }
 
     /**
-     * Check if auction is active.
+     * Cek apakah lelang sedang aktif (waktu mulai < sekarang < waktu selesai).
      */
     public function isActive(): bool
     {
@@ -93,7 +93,7 @@ class AuctionItem extends Model
     }
 
     /**
-     * Check if auction has ended.
+     * Cek apakah lelang sudah berakhir.
      */
     public function hasEnded(): bool
     {
@@ -101,7 +101,7 @@ class AuctionItem extends Model
     }
 
     /**
-     * Get time remaining in seconds.
+     * Hitung sisa waktu dalam detik.
      */
     public function getTimeRemainingAttribute(): int
     {
@@ -112,7 +112,7 @@ class AuctionItem extends Model
     }
 
     /**
-     * Get minimum next bid amount.
+     * Hitung jumlah bid minimum berikutnya (Harga + Kelipatan).
      */
     public function getMinimumBidAttribute(): float
     {
@@ -120,7 +120,7 @@ class AuctionItem extends Model
     }
 
     /**
-     * Scope for active auctions.
+     * Scope Query: Hanya ambil lelang yang aktif.
      */
     public function scopeActive($query)
     {
@@ -130,7 +130,7 @@ class AuctionItem extends Model
     }
 
     /**
-     * Scope for ended auctions.
+     * Scope Query: Hanya ambil lelang yang berakhir.
      */
     public function scopeEnded($query)
     {

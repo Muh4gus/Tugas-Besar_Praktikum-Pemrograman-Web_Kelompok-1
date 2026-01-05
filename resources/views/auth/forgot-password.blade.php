@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Masuk')
+@section('title', 'Lupa Password')
 
 @section('styles')
     <style>
@@ -68,18 +68,6 @@
             padding-left: 2.75rem;
         }
 
-        .form-check {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .form-check input {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-        }
-
         .auth-footer {
             text-align: center;
             margin-top: 2rem;
@@ -98,6 +86,16 @@
             font-size: 0.85rem;
             margin-top: 0.5rem;
         }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
     </style>
 @endsection
 
@@ -106,11 +104,18 @@
         <div class="auth-container">
             <div class="auth-card animate-fade-in">
                 <div class="auth-header">
-                    <div class="auth-icon"><i class="fas fa-sign-in-alt"></i></div>
-                    <h1 class="auth-title">Selamat Datang!</h1>
-                    <p class="auth-subtitle">Masuk ke akun LelangKu Anda</p>
+                    <div class="auth-icon"><i class="fas fa-key"></i></div>
+                    <h1 class="auth-title">Lupa Password?</h1>
+                    <p class="auth-subtitle">Masukkan email Anda untuk reset password</p>
                 </div>
-                <form method="POST" action="{{ route('login') }}">
+
+                @if (session('status'))
+                    <div class="success-message">
+                        <i class="fas fa-check-circle"></i> {!! session('status') !!}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('password.email') }}">
                     @csrf
                     <div class="form-group">
                         <label class="form-label">Email</label>
@@ -121,28 +126,14 @@
                         </div>
                         @error('email')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <div class="input-group">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" name="password" class="form-control" placeholder="••••••••" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div class="form-check">
-                                <input type="checkbox" name="remember" id="remember">
-                                <label for="remember">Ingat saya</label>
-                            </div>
-                            <a href="{{ route('password.request') }}"
-                                style="font-size: 0.9rem; color: var(--primary-light);">Lupa Password?</a>
-                        </div>
-                    </div>
+
                     <button type="submit" class="btn btn-primary" style="width:100%;padding:1rem;">
-                        <i class="fas fa-sign-in-alt"></i> Masuk
+                        <i class="fas fa-paper-plane"></i> Kirim Link Reset
                     </button>
                 </form>
-                <div class="auth-footer">Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a></div>
+                <div class="auth-footer">
+                    Kembali ke halaman <a href="{{ route('login') }}">Masuk</a>
+                </div>
             </div>
         </div>
     </div>

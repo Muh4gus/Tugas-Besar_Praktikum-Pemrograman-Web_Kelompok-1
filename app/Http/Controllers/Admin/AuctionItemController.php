@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class AuctionItemController extends Controller
 {
     /**
-     * Display listing of auction items.
+     * Tampilkan daftar item lelang (Listing).
      */
     public function index(Request $request)
     {
@@ -37,7 +37,7 @@ class AuctionItemController extends Controller
     }
 
     /**
-     * Show form for creating new auction item.
+     * Tampilkan form untuk menambah item lelang baru.
      */
     public function create()
     {
@@ -46,7 +46,7 @@ class AuctionItemController extends Controller
     }
 
     /**
-     * Store a newly created auction item.
+     * Simpan item lelang baru ke database.
      */
     public function store(Request $request)
     {
@@ -91,7 +91,7 @@ class AuctionItemController extends Controller
     }
 
     /**
-     * Display the specified auction item.
+     * Tampilkan detail item lelang.
      */
     public function show($id)
     {
@@ -102,7 +102,7 @@ class AuctionItemController extends Controller
     }
 
     /**
-     * Show form for editing auction item.
+     * Tampilkan form untuk edit item lelang.
      */
     public function edit($id)
     {
@@ -113,7 +113,7 @@ class AuctionItemController extends Controller
     }
 
     /**
-     * Update the specified auction item.
+     * Update/Perbarui item lelang di database.
      */
     public function update(Request $request, $id)
     {
@@ -153,7 +153,7 @@ class AuctionItemController extends Controller
     }
 
     /**
-     * Remove the specified auction item.
+     * Hapus item lelang dari database.
      */
     public function destroy($id)
     {
@@ -176,7 +176,7 @@ class AuctionItemController extends Controller
     }
 
     /**
-     * Validate and set winner.
+     * Validasi dan tetapkan pemenang lelang.
      */
     public function validateWinner($id)
     {

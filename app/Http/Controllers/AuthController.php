@@ -12,7 +12,7 @@ use Illuminate\Validation\Rules\Password;
 class AuthController extends Controller
 {
     /**
-     * Show login form.
+     * Tampilkan form login.
      */
     public function showLogin()
     {
@@ -23,7 +23,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle login request.
+     * Proses permintaan login.
      */
     public function login(Request $request)
     {
@@ -55,7 +55,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Show registration form.
+     * Tampilkan form registrasi.
      */
     public function showRegister()
     {
@@ -66,7 +66,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle registration request.
+     * Proses permintaan registrasi.
      */
     public function register(Request $request)
     {
@@ -98,7 +98,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle logout request.
+     * Proses logout user.
      */
     public function logout(Request $request)
     {
@@ -115,5 +115,67 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('home');
+    }
+
+    /**
+     * Tampilkan form lupa password.
+     */
+    public function showForgotPassword()
+    {
+        return view('auth.forgot-password');
+    }
+
+    /**
+     * Proses kirim link reset password (Mock/Simulasi).
+     */
+    public function sendResetLink(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        // Mock: Cek apakah user ada di database
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors(['email' => 'Email ini tidak terdaftar dalam sistem kami.']);
+        }
+
+        // Mock success message (Simulasi)
+        // [DEV NOTE]: Kita sertakan link reset langsung agar bisa dites tanpa email server
+        $resetLink = route('password.reset', ['email' => $request->email]);
+        return back()->with('status', 'Link reset password telah dikirim! (Mode Demo: <a href="' . $resetLink . '" style="text-decoration: underline;"><b>Klik di sini untuk Reset Password</b></a>)');
+    }
+
+    /**
+     * Tampilkan form reset password.
+     */
+    public function showResetForm(Request $request)
+    {
+        return view('auth.reset-password');
+    }
+
+    /**
+     * Proses logika reset password.
+     */
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', Password::min(8)],
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors(['email' => 'User tidak ditemukan.']);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        // Auto login setelah reset
+        Auth::login($user);
+
+        return redirect()->route('dashboard')->with('success', 'Password berhasil direset! Selamat datang kembali.');
     }
 }

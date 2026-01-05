@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class BidController extends Controller
 {
     /**
-     * Store a new bid.
+     * Simpan bid (penawaran) baru dari user.
      */
     public function store(Request $request)
     {
@@ -22,17 +22,17 @@ class BidController extends Controller
 
         $auction = AuctionItem::findOrFail($validated['auction_item_id']);
 
-        // Check if auction is active
+        // Cek apakah lelang masih aktif
         if (!$auction->isActive()) {
             return back()->with('error', 'Lelang ini sudah tidak aktif.');
         }
 
-        // Check if user is not bidding on their own item
+        // Cek agar user tidak bid barang sendiri
         if ($auction->user_id === auth()->id()) {
             return back()->with('error', 'Anda tidak dapat melakukan bid pada item Anda sendiri.');
         }
 
-        // Check minimum bid
+        // Cek apakah jumlah bid memenuhi minimum kenaikan
         $minimumBid = $auction->current_price + $auction->minimum_bid_increment;
         if ($validated['amount'] < $minimumBid) {
             return back()->with('error', 'Bid minimum adalah Rp ' . number_format($minimumBid, 0, ',', '.'));
@@ -40,20 +40,20 @@ class BidController extends Controller
 
         try {
             DB::transaction(function () use ($validated, $auction) {
-                // Create bid
+                // Buat data bid baru
                 $bid = Bid::create([
                     'auction_item_id' => $auction->id,
                     'user_id' => auth()->id(),
                     'amount' => $validated['amount'],
                 ]);
 
-                // Update auction current price and bid count
+                // Update harga saat ini dan jumlah total bid di tabel lelang
                 $auction->update([
                     'current_price' => $validated['amount'],
                     'total_bids' => $auction->total_bids + 1,
                 ]);
 
-                // Log activity
+                // Catat log aktivitas
                 AuctionLog::log(
                     $auction->id,
                     auth()->id(),
@@ -71,7 +71,7 @@ class BidController extends Controller
     }
 
     /**
-     * Get bid history for an auction.
+     * Ambil riwayat bid suatu lelang (untuk update real-time via AJAX).
      */
     public function history($auctionId)
     {
